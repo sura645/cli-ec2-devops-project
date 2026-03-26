@@ -1,0 +1,1 @@
+console.log("Hello from EC2 DevOps Project!");
