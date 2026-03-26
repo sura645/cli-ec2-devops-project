@@ -1,81 +1,171 @@
-EC2 DevOps Project (AWS CLI Based)
-📌 Project Overview
+# 🚀 EC2 DevOps Project (AWS CLI)
 
-This project demonstrates how to:
+## 📌 Project Overview
 
-Create an EC2 instance using AWS CLI
-Connect to the instance via SSH
-Create a simple Node.js app
-Push the project to GitHub
-⚙️ Prerequisites
+This project demonstrates a basic DevOps workflow using AWS CLI:
 
-Make sure you have:
+* Create an EC2 instance
+* Connect via SSH
+* Create a sample project
+* Manage files inside EC2
+* Document execution with screenshots
 
-AWS Account
-AWS CLI installed
-Git installed
-Basic terminal knowledge
-🧭 Step 1: Configure AWS CLI
+---
+
+# 🧰 Prerequisites
+
+* AWS CLI installed and configured
+* AWS account
+* Basic knowledge of terminal commands
+
+---
+
+# 📁 Project Structure
+
+```bash id="z2g8yl"
+my-devops-project/
+│
+├── app.js
+├── Dockerfile
+├── README.md
+└── screenshots/
+    ├── 1-aws-config.png
+    ├── 2-create-ec2.png
+    ├── 3-ssh-login.png
+    ├── 4-project-files.png
+```
+
+---
+
+# 📸 Screenshots
+
+## 🔹 AWS CLI Configuration
+
+![AWS Config](screenshots/1-aws-config.png)
+
+## 🔹 EC2 Instance Creation
+
+![EC2](screenshots/2-create-ec2.png)
+
+## 🔹 SSH Login
+
+![SSH](screenshots/3-ssh-login.png)
+
+## 🔹 Project Files
+
+![Files](screenshots/4-project-files.png)
+
+---
+
+# ⚙️ Step-by-Step Execution (AWS CLI)
+
+## ✅ Step 1: Configure AWS CLI
+
+```bash id="p1b9rr"
 aws configure
+```
 
-Provide:
+👉 Provide:
 
-AWS Access Key ID: <your-key>
-AWS Secret Access Key: <your-secret>
-Region: ap-south-1
-Output: json
-🖥️ Step 2: Create Key Pair
+* Access Key
+* Secret Key
+* Region: ap-south-1
+* Output: json
+
+---
+
+## ✅ Step 2: Create Key Pair
+
+```bash id="7fdavm"
 aws ec2 create-key-pair \
-    --key-name my-key \
-    --query 'KeyMaterial' \
-    --output text > my-key.pem
+--key-name my-key \
+--query 'KeyMaterial' \
+--output text > my-key.pem
+```
 
-👉 This creates a private key file to connect to EC2.
-
-Secure it:
-
+```bash id="if7jbc"
 chmod 400 my-key.pem
-🔐 Step 3: Create Security Group
+```
+
+---
+
+## ✅ Step 3: Create Security Group
+
+```bash id="cqxja6"
 aws ec2 create-security-group \
-    --group-name my-sg \
-    --description "My security group"
+--group-name my-sg \
+--description "My security group"
+```
 
-👉 Copy the GroupId from output.
+---
 
-🌐 Step 4: Allow SSH Access
+## ✅ Step 4: Allow SSH Access
+
+```bash id="8g5c24"
 aws ec2 authorize-security-group-ingress \
-    --group-id <GROUP_ID> \
-    --protocol tcp \
-    --port 22 \
-    --cidr 0.0.0.0/0
+--group-id <GROUP_ID> \
+--protocol tcp \
+--port 22 \
+--cidr 0.0.0.0/0
+```
 
-👉 Opens port 22 for SSH access.
+---
 
-🚀 Step 5: Launch EC2 Instance
+## ✅ Step 5: Launch EC2 Instance
+
+```bash id="87nfjj"
 aws ec2 run-instances \
-    --image-id ami-0f58b397bc5c1f2e8 \
-    --count 1 \
-    --instance-type t2.micro \
-    --key-name my-key \
-    --security-group-ids <GROUP_ID>
+--image-id ami-0f58b397bc5c1f2e8 \
+--instance-type t2.micro \
+--key-name my-key \
+--security-group-ids <GROUP_ID>
+```
 
-👉 Copy the InstanceId.
+---
 
-🌍 Step 6: Get Public IP
+## ✅ Step 6: Get Public IP
+
+```bash id="m0dqdb"
 aws ec2 describe-instances \
-    --instance-ids <INSTANCE_ID> \
-    --query 'Reservations[*].Instances[*].PublicIpAddress' \
-    --output text
-🔑 Step 7: Connect to EC2
+--instance-ids <INSTANCE_ID> \
+--query 'Reservations[*].Instances[*].PublicIpAddress' \
+--output text
+```
+
+---
+
+## ✅ Step 7: Connect to EC2
+
+```bash id="dqnoq9"
 ssh -i my-key.pem ec2-user@<PUBLIC_IP>
-📁 Step 8: Create Project Folder
+```
+
+---
+
+## ✅ Step 8: Create Project Folder
+
+```bash id="f0nh27"
 mkdir my-devops-project
 cd my-devops-project
-📄 Step 9: Create Project Files
+```
+
+---
+
+## ✅ Step 9: Create Project Files
+
+```bash id="k3yij0"
 touch app.js Dockerfile README.md
-🧾 app.js
+```
+
+### 📄 app.js
+
+```javascript id="9ap28q"
 console.log("Hello from EC2 DevOps Project!");
-🐳 Dockerfile
+```
+
+### 📄 Dockerfile
+
+```dockerfile id="b1q2ab"
 FROM node:18
 
 WORKDIR /app
@@ -83,28 +173,24 @@ WORKDIR /app
 COPY . .
 
 CMD ["node", "app.js"]
-📝 Step 10: Install Git
-sudo yum install git -y
-⚙️ Step 11: Configure Git
-git config --global user.name "your-name"
-git config --global user.email "your-email"
-📦 Step 12: Initialize Git Repo
-git init
-➕ Step 13: Add Files
-git add .
-💾 Step 14: Commit Code
-git commit -m "Initial commit - EC2 project"
-🌐 Step 15: Connect to GitHub
+```
 
-Create a repository in GitHub, then:
+---
 
-git remote add origin https://github.com/<username>/ec2-devops-project.git
-🚀 Step 16: Push Code
-git branch -M main
-git push -u origin main
-📁 Project Structure
-my-devops-project/
-│
-├── app.js
-├── Dockerfile
-└── README.md
+## ✅ Step 10: Create Screenshots Folder
+
+```bash id="o1p8dz"
+mkdir screenshots
+```
+
+👉 Store all execution screenshots inside this folder.
+
+---
+
+# 🎯 Learning Outcome
+
+* AWS CLI usage for infrastructure
+* EC2 instance provisioning
+* SSH remote access
+* Basic project setup in Linux
+* Folder structure for real DevOps project
